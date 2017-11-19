@@ -8,5 +8,13 @@ export class rxios {
     this._httpClient = axios.create(options);
   }
 
+  public get<T>(url: string) {
+    return new Observable<T>(subscriber => {
+      this._httpClient.get<T>(url).then(response => {
+        subscriber.next(response.data);
+        subscriber.complete();
+      });
+    });
+  }
 
 }
