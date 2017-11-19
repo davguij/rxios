@@ -1,0 +1,28 @@
+{
+  "name": "rxios",
+  "version": "1.0.0",
+  "description": "Reactive wrapper for axios",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davguij/rxios.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davguij/rxios/issues"
+  },
+  "homepage": "https://github.com/davguij/rxios#readme",
+  "peerDependencies": {
+    "axios": "~0.17.0",
+    "rxjs": "^5.0.0"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1",
+    "typescript": "^2.6.1"
+  }
+}
