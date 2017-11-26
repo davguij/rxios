@@ -25,6 +25,14 @@ describe('GET methods', () => {
       expect(err).toBeDefined();
       expect(err.message).toBe('Request failed with status code 404');      
     });
+  });
+
+  it('accepts queryParams', () => {
+    rxiosInstance.get('/posts', {title: 'json-server', author: 'typicode'}).subscribe(resp => {
+      expect(resp).toBeDefined();
+    }, err => {
+      expect(err).toBeFalsy();
+    })
   })
 });
 
