@@ -4,7 +4,6 @@
   "description": "Reactive wrapper for axios",
   "main": "dist/index.js",
   "scripts": {
-    "mock": "json-server db.json",
     "test": "jest",
     "build": "tsc"
   },
@@ -25,9 +24,9 @@
   },
   "devDependencies": {
     "@types/jest": "^21.1.8",
+    "@types/moxios": "^0.4.8",
     "jest": "^21.2.1",
-    "json-server": "^0.12.1",
-    "npm-run-parallel": "^0.6.0",
+    "moxios": "^0.4.0",
     "ts-jest": "^21.2.3",
     "typescript": "^2.6.1"
   },
