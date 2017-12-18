@@ -12,9 +12,30 @@ export class rxios {
     this._httpClient = axios.create(options);
   }
 
-  public get<T>(url: string, queryParams?: object) {
+  private _makeRequest<T>(method: string, url: string, queryParams?: object, body?: object) {
+    let request: AxiosPromise<T>;
+    switch (method) {
+      case 'GET':
+        request = this._httpClient.get<T>(url, queryParams);
+        break;
+      case 'POST':
+        request = this._httpClient.post<T>(url, body, queryParams);
+        break;
+      case 'PUT':
+        request = this._httpClient.put<T>(url, body, queryParams);
+        break;
+      case 'PATCH':
+        request = this._httpClient.patch<T>(url, body, queryParams);
+        break;
+      case 'DELETE':
+        request = this._httpClient.delete(url, queryParams);
+        break;
+    
+      default:
+        throw new Error('Method not supported');
+    }
     return new Observable<T>(subscriber => {
-      this._httpClient.get<T>(url, queryParams).then(response => {
+      request.then(response => {
         subscriber.next(response.data);
         subscriber.complete();
       }).catch((err: Error) => {
@@ -24,16 +45,23 @@ export class rxios {
     });
   }
 
+  public get<T>(url: string, queryParams?: object) {
+    return this._makeRequest<T>('GET', url, queryParams);
+  }
+
   public post<T>(url: string, body: object, queryParams?: object) {
-    return new Observable<T>(subscriber => {
-      this._httpClient.post<T>(url, body, queryParams).then(response => {
-        subscriber.next(response.data);
-        subscriber.complete();
-      }).catch((err: Error) => {
-        subscriber.error(err);
-        subscriber.complete();
-      });
-    });
+    return this._makeRequest<T>('POST', url, queryParams, body);
   }
   
+  public put<T>(url: string, body: object, queryParams?: object) {
+    return this._makeRequest<T>('PUT', url, queryParams, body);
+  }
+
+  public patch<T>(url: string, body: object, queryParams?: object) {
+    return this._makeRequest<T>('PATCH', url, queryParams, body);
+  }
+  
+  public delete(url: string, body: object, queryParams?: object) {
+    return this._makeRequest('DELETE', url, queryParams, body);
+  }
 }
