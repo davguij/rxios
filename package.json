@@ -39,9 +39,5 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
     "collectCoverage": true,
     "testEnvironment": "node"
-  },
-  "dependencies": {
-    "axios": "^0.17.1",
-    "rxjs": "^5.5.2"
   }
 }
