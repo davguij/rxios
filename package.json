@@ -2,7 +2,8 @@
   "name": "rxios",
   "version": "1.0.0",
   "description": "Reactive wrapper for axios",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.js",
   "scripts": {
     "test": "jest",
     "build": "tsc"

@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "lib": ["es6", "es7"],
+    "lib": [
+      "es6",
+      "es7"
+    ],
     "sourceMap": true,
     "declaration": true,
     "outDir": "./dist",
@@ -8,10 +11,12 @@
     "moduleResolution": "node",
     "strict": true
   },
+  "include": [
+    "./src/index.ts"
+  ],
   "exclude": [
     "./node_modules/",
     "./dist/",
-    "./**/__mocks__/*.ts",
-    "./**/*.spec.ts"
+    "./__tests__/"
   ]
 }

@@ -1,0 +1,7 @@
+tsconfig.json
+.travis.yml
+.nojekyll
+src/
+__tests__/
+dist/__test__/
+.npmignore
