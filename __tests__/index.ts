@@ -1,15 +1,20 @@
 import { rxios } from '../src';
 import * as nock from 'nock';
-describe('GET methods', () => {
+
+const mockServer = nock('http://test.com');
+
+describe('GET method', () => {
   let rxiosInstance: rxios;
   
   beforeEach(() => {
-    rxiosInstance = new rxios();
+    rxiosInstance = new rxios({
+      baseURL: 'http://test.com/'
+    });
   });
 
   it('makes a successful GET req', async () => {
     const expected = { id: 1, title: 'rxios is so cool!', author: 'davguij' };
-    nock('http://test.com').get('/posts/1').reply(200, expected);
+    mockServer.get('/posts/1').reply(200, expected);
     const promise = new Promise((resolve, reject) => {
       rxiosInstance.get('http://test.com/posts/1').subscribe(resp => {
         resolve(resp);
@@ -21,7 +26,7 @@ describe('GET methods', () => {
   });
 
   it('throws an error on a failed GET req', async () => {
-    nock('http://test.com').get('/posts/1').replyWithError('Request failed with status code 500');
+    mockServer.get('/posts/1').replyWithError('Request failed with status code 500');
 
     const promise = new Promise((resolve, reject) => {
       rxiosInstance.get('http://test.com/posts/1').subscribe(resp => {
@@ -33,42 +38,120 @@ describe('GET methods', () => {
     await expect(promise).rejects.toBeInstanceOf(Error);
   });
 
-  // it('accepts queryParams', () => {
-  //   rxiosInstance.get('/posts', {title: 'rxios is so cool!', author: 'davguij'}).subscribe(resp => {
-  //     expect(resp).toBeDefined();
-  //   }, err => {
-  //     expect(err).toBeFalsy();
-  //   })
-  // })
+  it('accepts queryParams', async () => {
+    mockServer.get('/posts').query({title: 'rxios', author: 'davguij'}).reply(200);
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.get('http://test.com/posts', {title: 'rxios', author: 'davguij'}).subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      })
+    });
+    await expect(promise).resolves.toBeDefined();
+  });
 
-  // afterEach(() => {
-  //   // import and pass your custom axios instance to this method
-  //   moxios.uninstall(rxiosInstance._httpClient);
-  // });
+  it('accepts a type for the response', async () => {
+    interface i {
+      cool: boolean;
+    };
 
-// });
-
-// const getRandomInt = (min: number, max: number) => {
-//   return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
-
-// describe('POST methods', () => {
-//   let rxiosInstance: rxios;
+    const response: i = {cool: true};
   
-//   beforeEach(() => {
-//     rxiosInstance = new rxios({
-//       baseURL: 'http://localhost:3000'
-//     });
-//   });
+    mockServer.get('/post/1').reply(200, response);
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.get<i>('http://test.com/post/1').subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      })
+    });
+    await expect(promise).resolves.toBeDefined();
+  });
 
-//   it('makes a successful POST req', () => {
-//     const randomId = getRandomInt(0, 99998);
-//     const body = { id: randomId, title: 'json-server', author: 'davguij' };
-//     rxiosInstance.post('/posts', body).subscribe(postResponse => {
-//       expect(postResponse).toMatchObject(body);
-//     }, err => {
-//       expect(err).toBeFalsy();      
-//     });
-//   });
+});
+
+describe('POST method', () => {
+  let rxiosInstance: rxios;
+  
+  beforeEach(() => {
+    rxiosInstance = new rxios({
+      baseURL: 'http://test.com/'
+    });
+  });
+
+  it('makes a successful POST req', async () => {
+    mockServer.post('/posts').reply(201);
+    const body = { title: 'json-server', author: 'davguij' };
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.post('posts', body).subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      })
+    });
+    await expect(promise).resolves.toBeDefined();
+  });
+
+  it('throws an error on a failed POST req', async () => {
+    mockServer.post('/posts').replyWithError('Request failed with status code 500');
+
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.post('http://test.com/posts', {}).subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      });  
+    });
+    await expect(promise).rejects.toBeInstanceOf(Error);
+  });
+});
+
+
+describe('rest of methods', () => {
+  let rxiosInstance: rxios;
+  
+  beforeEach(() => {
+    rxiosInstance = new rxios({
+      baseURL: 'http://test.com/'
+    });
+  });
+
+  it('makes a successful PUT req', async () => {
+    const body = { title: 'json-server', author: 'davguij' };
+    mockServer.put('/post/1').reply(200, body);
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.put('post/1', body).subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      })
+    });
+    await expect(promise).resolves.toEqual(body);
+  });
+
+  it('makes a successful PATCH req', async () => {
+    const body = { title: 'json-server', author: 'davguij' };
+    mockServer.patch('/post/1').reply(200, body);
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.patch('post/1', body).subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      })
+    });
+    await expect(promise).resolves.toEqual(body);
+  });
+
+  it('makes a successful DELETE req', async () => {
+    mockServer.delete('/post/1').reply(200);
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.delete('post/1').subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      })
+    });
+    await expect(promise).resolves.toBeDefined();
+  });
 
 });

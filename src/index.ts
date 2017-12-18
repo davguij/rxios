@@ -16,19 +16,19 @@ export class rxios {
     let request: AxiosPromise<T>;
     switch (method) {
       case 'GET':
-        request = this._httpClient.get<T>(url, queryParams);
+        request = this._httpClient.get<T>(url, {params: queryParams});
         break;
       case 'POST':
-        request = this._httpClient.post<T>(url, body, queryParams);
+        request = this._httpClient.post<T>(url, body, {params: queryParams});
         break;
       case 'PUT':
-        request = this._httpClient.put<T>(url, body, queryParams);
+        request = this._httpClient.put<T>(url, body, {params: queryParams});
         break;
       case 'PATCH':
-        request = this._httpClient.patch<T>(url, body, queryParams);
+        request = this._httpClient.patch<T>(url, body, {params: queryParams});
         break;
       case 'DELETE':
-        request = this._httpClient.delete(url, queryParams);
+        request = this._httpClient.delete(url, {params: queryParams});
         break;
     
       default:
@@ -61,7 +61,7 @@ export class rxios {
     return this._makeRequest<T>('PATCH', url, queryParams, body);
   }
   
-  public delete(url: string, body: object, queryParams?: object) {
-    return this._makeRequest('DELETE', url, queryParams, body);
+  public delete(url: string, queryParams?: object) {
+    return this._makeRequest('DELETE', url, queryParams);
   }
 }
