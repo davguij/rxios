@@ -1,41 +1,36 @@
 import { rxios } from '../src';
-import * as moxios from 'moxios';
-
+import * as nock from 'nock';
 describe('GET methods', () => {
   let rxiosInstance: rxios;
   
   beforeEach(() => {
     rxiosInstance = new rxios();
-    moxios.install(rxiosInstance._httpClient);
   });
 
-  it('makes a successful GET req', () => {
+  it('makes a successful GET req', async () => {
     const expected = { id: 1, title: 'rxios is so cool!', author: 'davguij' };
-
-    moxios.wait(() => {
-      let request = moxios.requests.mostRecent();
-      request.respondWith({response: expected, status: 200});  
+    nock('http://test.com').get('/posts/1').reply(200, expected);
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.get('http://test.com/posts/1').subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      });  
     });
-
-    rxiosInstance.get('/posts/1').subscribe(resp => {
-      expect(resp).toMatchObject(expected);
-    }, err => {
-      expect(err).toBeFalsy();
-    });
+    await expect(promise).resolves.toEqual(expected);
   });
 
-  it('throws an error on a failed GET req', () => {
-    moxios.wait(() => {
-      let request = moxios.requests.mostRecent();
-      request.respondWith({status: 404});  
-    });
+  it('throws an error on a failed GET req', async () => {
+    nock('http://test.com').get('/posts/1').replyWithError('Request failed with status code 500');
 
-    rxiosInstance.get('/posts/1').subscribe(resp => {
-      expect(resp).toBeFalsy();
-    }, err => {
-      expect(err).toBeDefined();
-      expect(err.message).toBe('Request failed with status code 404');      
+    const promise = new Promise((resolve, reject) => {
+      rxiosInstance.get('http://test.com/posts/1').subscribe(resp => {
+        resolve(resp);
+      }, err => {
+        reject(err);
+      });  
     });
+    await expect(promise).rejects.toBeInstanceOf(Error);
   });
 
   // it('accepts queryParams', () => {
@@ -46,12 +41,12 @@ describe('GET methods', () => {
   //   })
   // })
 
-  afterEach(() => {
-    // import and pass your custom axios instance to this method
-    moxios.uninstall(rxiosInstance._httpClient);
-  });
+  // afterEach(() => {
+  //   // import and pass your custom axios instance to this method
+  //   moxios.uninstall(rxiosInstance._httpClient);
+  // });
 
-});
+// });
 
 // const getRandomInt = (min: number, max: number) => {
 //   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -76,4 +71,4 @@ describe('GET methods', () => {
 //     });
 //   });
 
-// });
+});

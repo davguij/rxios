@@ -6,7 +6,7 @@ export interface rxiosConfig extends AxiosRequestConfig {
 }
 
 export class rxios {
-  public _httpClient: AxiosInstance;
+  private _httpClient: AxiosInstance;
   
   constructor(private options: rxiosConfig = {}) {
     this._httpClient = axios.create(options);
@@ -56,9 +56,11 @@ export class rxios {
   public put<T>(url: string, body: object, queryParams?: object) {
     return this._makeRequest<T>('PUT', url, queryParams, body);
   }
+
   public patch<T>(url: string, body: object, queryParams?: object) {
     return this._makeRequest<T>('PATCH', url, queryParams, body);
   }
+  
   public delete(url: string, body: object, queryParams?: object) {
     return this._makeRequest('DELETE', url, queryParams, body);
   }
