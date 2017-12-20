@@ -8,5 +8,5 @@ before_install:
   - "npm install axios rxjs"
 after_script:
   - "npm run build"
-# after_success:
-#   - npm run coverage
+after_success:
+  - "npm run semantic-release"
