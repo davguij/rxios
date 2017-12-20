@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es6",
+      "es7"
+    ],
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "target": "es2015",
+    "moduleResolution": "node",
+    "strict": true
+  },
+  "include": [
+    "./src/index.ts"
+  ],
+  "exclude": [
+    "./node_modules/",
+    "./dist/",
+    "./__tests__/"
+  ]
+}

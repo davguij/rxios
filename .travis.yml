@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "lts/*"
+cache:
+  directories:
+    - "node_modules"
+before_install:
+  - "npm install axios rxjs"
+after_script:
+  - "npm run build"
+after_success:
+  - "npm run semantic-release"
