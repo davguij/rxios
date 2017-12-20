@@ -2,12 +2,11 @@
   "name": "rxios",
   "version": "0.0.0-development",
   "description": "Reactive wrapper for axios",
-  "main": "./index.js",
-  "types": "./index.d.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.js",
   "scripts": {
     "test": "jest",
-    "build":
-      "tsc && cp package.json dist/ && cp package-lock.json dist/ && cp *.md dist/",
+    "build": "tsc",
     "semantic-release":
       "semantic-release pre && npm publish && semantic-release post"
   },
@@ -44,13 +43,5 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
     "collectCoverage": true,
     "testEnvironment": "node"
-  },
-  "release": {
-    "publish": [
-      {
-        "path": "@semantic-release/npm",
-        "pkgRoot": "dist"
-      }
-    ]
   }
 }

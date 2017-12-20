@@ -7,7 +7,8 @@
     "sourceMap": true,
     "declaration": true,
     "outDir": "./dist",
-    "target": "es2015",
+    "target": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true
   },
