@@ -23,7 +23,7 @@
   "homepage": "https://github.com/davguij/rxios#readme",
   "peerDependencies": {
     "axios": "~0.17.0",
-    "rxjs": "^5.0.0"
+    "rxjs": ">=6.0.0-alpha.3 <7.0.0"
   },
   "devDependencies": {
     "@types/jest": "^21.1.8",

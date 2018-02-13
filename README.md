@@ -6,6 +6,10 @@
 
 Rxios makes the awesome [axios](https://github.com/axios/axios) library reactive, so that it's responses are returned as [RxJS](https://github.com/ReactiveX/rxjs) observables.
 
+## RxJS 6 Alpha
+
+Note that this version of Rxios is built against [RxJS 6 Alpha 3](https://github.com/ReactiveX/rxjs#rxjs-6-alpha) or greater as a peer dependency. Breaking changes might occur, both in Rxios and RxJS.
+
 ### Observables? Why?
 
 Regular promises are cool, especially for HTTP requests in async/await functions.
