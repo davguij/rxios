@@ -4,8 +4,10 @@ node_js:
 cache:
   directories:
     - "node_modules"
-before_install:
-  - "npm install axios rxjs"
+before_script:
+  - "npm install --no-save axios@0.17 rxjs"
+script:
+  - "npm test -- -w=2"
 after_success:
   - "npm run build"
   - "npm run semantic-release"

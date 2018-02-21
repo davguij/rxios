@@ -5,7 +5,7 @@ export interface rxiosConfig extends AxiosRequestConfig {
   localCache?: boolean;
 }
 
-export class rxios {
+class rxios {
   private _httpClient: AxiosInstance;
   
   constructor(private options: rxiosConfig = {}) {
@@ -65,3 +65,5 @@ export class rxios {
     return this._makeRequest('DELETE', url, queryParams);
   }
 }
+
+export {rxios, rxios as Rxios};
