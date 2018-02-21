@@ -23,10 +23,11 @@ Lastly, Reactive stuff is what all the cool kids are doing.
 ### Usage
 
 ```javascript
-const { rxios } = require('rxios');
-// or import { rxios } from 'rxios';
+const { Rxios } = require('rxios');
+// or import { Rxios } from 'rxios';
+// import { rxios } from 'rxios' is also supported for historical reasons
 
-const http = new rxios({
+const http = new Rxios({
   // all regular axios request configuration options are valid here
   // check https://github.com/axios/axios#request-config
   baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -80,8 +81,8 @@ Rxios is written in TypeScript, and its typings are provided in this same packag
 Also, just like with axios or with Angular's Http module, response types are accepted by the method, like:
 
 ```typescript
-import { rxios } from 'rxios';
-const http = new rxios();
+import { Rxios } from 'rxios';
+const http = new Rxios();
 interface MyResponse = {userId: number; id: number; title: string};
 http.get<MyResponse[]>('/posts/1')
   .subscribe(resp: MyResponse[] => {...});
@@ -95,8 +96,8 @@ For example, we could make two simultaneous requests and merge their responses a
 
 ```javascript
 import { Observable } from 'rxjs/Rx';
-import { rxios } from 'rxios';
-const http = new rxios();
+import { Rxios } from 'rxios';
+const http = new Rxios();
 
 const firstReq = http.get('/posts/1');
 const secondReq = http.get('/posts/2');
