@@ -5,7 +5,9 @@ cache:
   directories:
     - "node_modules"
 before_install:
-  - "npm install axios rxjs"
+  - "npm install axios@0.17 rxjs"
+script:
+  - "npm test -- -w=2"
 after_script:
   - "npm run build"
 after_success:
