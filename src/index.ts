@@ -7,30 +7,30 @@ export interface rxiosConfig extends AxiosRequestConfig {
 
 class rxios {
   private _httpClient: AxiosInstance;
-  
+
   constructor(private options: rxiosConfig = {}) {
     this._httpClient = axios.create(options);
   }
 
-  private _makeRequest<T>(method: string, url: string, queryParams?: object, body?: object) {
+  private _makeRequest<T>(method: string, url: string, config?: object, body?: object) {
     let request: AxiosPromise<T>;
     switch (method) {
       case 'GET':
-        request = this._httpClient.get<T>(url, {params: queryParams});
+        request = this._httpClient.get<T>(url, config);
         break;
       case 'POST':
-        request = this._httpClient.post<T>(url, body, {params: queryParams});
+        request = this._httpClient.post<T>(url, body, config);
         break;
       case 'PUT':
-        request = this._httpClient.put<T>(url, body, {params: queryParams});
+        request = this._httpClient.put<T>(url, body, config);
         break;
       case 'PATCH':
-        request = this._httpClient.patch<T>(url, body, {params: queryParams});
+        request = this._httpClient.patch<T>(url, body, config);
         break;
       case 'DELETE':
-        request = this._httpClient.delete(url, {params: queryParams});
+        request = this._httpClient.delete(url, config);
         break;
-    
+
       default:
         throw new Error('Method not supported');
     }
@@ -45,24 +45,24 @@ class rxios {
     });
   }
 
-  public get<T>(url: string, queryParams?: object) {
-    return this._makeRequest<T>('GET', url, queryParams);
+  public get<T>(url: string, config?: object) {
+    return this._makeRequest<T>('GET', url, config);
   }
 
-  public post<T>(url: string, body: object, queryParams?: object) {
-    return this._makeRequest<T>('POST', url, queryParams, body);
-  }
-  
-  public put<T>(url: string, body: object, queryParams?: object) {
-    return this._makeRequest<T>('PUT', url, queryParams, body);
+  public post<T>(url: string, body: object, config?: object) {
+    return this._makeRequest<T>('POST', url, config, body);
   }
 
-  public patch<T>(url: string, body: object, queryParams?: object) {
-    return this._makeRequest<T>('PATCH', url, queryParams, body);
+  public put<T>(url: string, body: object, config?: object) {
+    return this._makeRequest<T>('PUT', url, config, body);
   }
-  
-  public delete(url: string, queryParams?: object) {
-    return this._makeRequest('DELETE', url, queryParams);
+
+  public patch<T>(url: string, body: object, config?: object) {
+    return this._makeRequest<T>('PATCH', url, config, body);
+  }
+
+  public delete(url: string, config?: object) {
+    return this._makeRequest('DELETE', url, config);
   }
 }
 
