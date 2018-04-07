@@ -39,7 +39,7 @@ class rxios {
         subscriber.next(response);
         subscriber.complete();
       }).catch((err: Error) => {
-        subscriber.error(err);
+        subscriber.error(err.response);
         subscriber.complete();
       });
     });
