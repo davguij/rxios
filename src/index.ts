@@ -36,7 +36,7 @@ class rxios {
     }
     return new Observable<T>(subscriber => {
       request.then(response => {
-        subscriber.next(response.data);
+        subscriber.next(response);
         subscriber.complete();
       }).catch((err: Error) => {
         subscriber.error(err);
