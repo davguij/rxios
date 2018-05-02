@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise } from 'axios';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export interface rxiosConfig extends AxiosRequestConfig {
   localCache?: boolean;
