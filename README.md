@@ -99,11 +99,11 @@ All Rxios methods always return an Observable, to which we can apply advanced Rx
 For example, we could make two simultaneous requests and merge their responses as they come, without needing to wait for both to be completed.
 
 ```javascript
-import { Observable } from 'rxjs/Rx';
+import { Observable, merge } from 'rxjs';
 import { Rxios } from 'rxios';
 const http = new Rxios();
 
 const firstReq = http.get('/posts/1');
 const secondReq = http.get('/posts/2');
-firstReq.merge(secondReq).subscribe(...);
+merge(firstReq, secondReq).subscribe(...);
 ```
