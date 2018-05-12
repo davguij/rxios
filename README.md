@@ -30,7 +30,7 @@ const { Rxios } = require('rxios');
 const http = new Rxios({
   // all regular axios request configuration options are valid here
   // check https://github.com/axios/axios#request-config
-  baseUrl: 'https://jsonplaceholder.typicode.com',
+  baseURL: 'https://jsonplaceholder.typicode.com',
 });
 
 // plain GET request
