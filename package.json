@@ -7,8 +7,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-	"semantic-release": "semantic-release pre && npm publish && semantic-release post",
-	"prepare": "tsc"
+	"semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
