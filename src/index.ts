@@ -34,7 +34,7 @@ class rxios {
 			default:
 				throw new Error('Method not supported');
 		}
-		return new Observable<T | AxiosResponse<T>>(subscriber => {
+		return new Observable<any>(subscriber => {
 			request.then(response => {
 				subscriber.next(fullResponse ? response : response.data);
 				subscriber.complete();
