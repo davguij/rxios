@@ -1,11 +1,11 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Observable } from 'rxjs/Observable';
 export interface rxiosConfig extends AxiosRequestConfig {
     localCache?: boolean;
 }
 declare class rxios {
     private options;
-    private _httpClient;
+    _httpClient: AxiosInstance;
     constructor(options?: rxiosConfig);
     private _makeRequest;
     get<T>(url: string, queryParams?: object, fullResponse?: boolean): Observable<any>;
