@@ -8,6 +8,7 @@ declare class rxios {
     _httpClient: AxiosInstance;
     constructor(options?: rxiosConfig);
     private _makeRequest;
+    request<T>(config: object): Observable<any>;
     get<T>(url: string, queryParams?: object, fullResponse?: boolean): Observable<any>;
     post<T>(url: string, body: object, queryParams?: object, fullResponse?: boolean): Observable<any>;
     put<T>(url: string, body: object, queryParams?: object, fullResponse?: boolean): Observable<any>;

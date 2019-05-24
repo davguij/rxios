@@ -45,6 +45,18 @@ class rxios {
 		});
 	}
 
+	public request<T>(config: object) {
+		return new Observable<any>(subscriber => {
+			this._httpClient.request(config).then(response => {
+				subscriber.next(response);
+				subscriber.complete();
+			}).catch((err: Error) => {
+				subscriber.error(err);
+				subscriber.complete();
+			});
+		});
+	}
+
 	public get<T>(url: string, queryParams?: object, fullResponse?: boolean) {
 		return this._makeRequest<T>('GET', url, queryParams, undefined, fullResponse);
 	}

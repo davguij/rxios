@@ -38,6 +38,17 @@ class rxios {
             });
         });
     }
+    request(config) {
+        return new Observable_1.Observable(subscriber => {
+            this._httpClient.request(config).then(response => {
+                subscriber.next(response);
+                subscriber.complete();
+            }).catch((err) => {
+                subscriber.error(err);
+                subscriber.complete();
+            });
+        });
+    }
     get(url, queryParams, fullResponse) {
         return this._makeRequest('GET', url, queryParams, undefined, fullResponse);
     }

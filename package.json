@@ -1,13 +1,13 @@
 {
   "name": "rxios",
-  "version": "0.0.0-development",
+  "version": "0.0.1",
   "description": "Reactive wrapper for axios",
   "main": "./dist/index.js",
   "types": "./dist/index.d.js",
   "scripts": {
     "test": "jest",
     "build": "tsc",
-	"semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
@@ -50,5 +50,10 @@
     ],
     "collectCoverage": true,
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "rxjs": "^6.5.2",
+    "rxjs-compat": "^6.5.2"
   }
 }
