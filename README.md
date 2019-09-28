@@ -85,7 +85,7 @@ import { Rxios } from 'rxios';
 const http = new Rxios();
 interface MyResponse = {userId: number; id: number; title: string};
 http.get<MyResponse[]>('/posts/1')
-  .subscribe(resp: MyResponse[] => {...});
+  .subscribe(resp: => {...});
 ```
 
 ### Advanced usage
