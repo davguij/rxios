@@ -1,0 +1,13 @@
+tsconfig.json
+.travis.yml
+.nojekyll
+src/
+test/
+.npmignore
+package-lock.json
+.prettierrc
+.releaserc
+.github
+.vuepress
+docs
+coverage
