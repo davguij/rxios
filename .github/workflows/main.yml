@@ -28,7 +28,7 @@ jobs:
           CI: true
 
       - name: Install peer dependencies
-        run: npm i axios rxjs
+        run: npm i axios rxjs --no-save
         env:
           CI: true
 
@@ -60,6 +60,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        env:
+          CI: true
+
+      - name: Install peer dependencies
+        run: npm i axios rxjs --no-save
         env:
           CI: true
 

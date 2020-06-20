@@ -2,7 +2,7 @@
 
 ### A RxJS wrapper for axios
 
-[![npm](https://badgen.net/npm/v/rxios?color=red&icon=npm)]() [![bundlephobia](https://badgen.net/bundlephobia/minzip/rxios)]()
+[![npm](https://badgen.net/npm/v/rxios?color=red&icon=npm)]() ![CI](https://github.com/davguij/rxios/workflows/CI/badge.svg) [![bundlephobia](https://badgen.net/bundlephobia/minzip/rxios)]()
 
 Rxios makes the awesome [axios](https://github.com/axios/axios) library reactive, so that it's responses are returned as [RxJS](https://github.com/ReactiveX/rxjs) observables.
 
