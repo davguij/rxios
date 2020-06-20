@@ -104,29 +104,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
-
-  release-dry:
-    runs-on: ubuntu-latest
-    name: Release version to npm registry
-    needs: build
-    if: github.ref != 'refs/heads/master'
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Use Node 12
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-
-      - uses: actions/download-artifact@v2
-        name: Load dist folder from artifacts
-        with:
-          name: dist
-          path: dist
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release -d
