@@ -1,0 +1,106 @@
+name: CI
+on: [push]
+
+jobs:
+  lint_test:
+    runs-on: ubuntu-latest
+    name: Run tests
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Use Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Use cached node_modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            nodeModules-
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          CI: true
+
+      - name: Install peer dependencies
+        run: npm i axios rxjs --no-save
+        env:
+          CI: true
+
+      - name: Test
+        run: npm test
+        env:
+          CI: true
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    needs: lint_test
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Use Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Use cached node_modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            nodeModules-
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          CI: true
+
+      - name: Install peer dependencies
+        run: npm i axios rxjs --no-save
+        env:
+          CI: true
+
+      - name: Build
+        run: npm run build
+        env:
+          CI: true
+
+      - uses: actions/upload-artifact@v2
+        name: Store dist folder to artifacts
+        with:
+          name: dist
+          path: dist/ # or path/to/artifact
+
+  release:
+    runs-on: ubuntu-latest
+    name: Release version to npm registry
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Use Node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - uses: actions/download-artifact@v2
+        name: Load dist folder from artifacts
+        with:
+          name: dist
+          path: dist
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release

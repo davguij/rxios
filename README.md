@@ -1,27 +1,125 @@
-# TSDX Bootstrap
+# Rxios
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+### A RxJS wrapper for axios
 
-## Local Development
+[![npm](https://badgen.net/npm/v/rxios?color=red&icon=npm)]() ![CI](https://github.com/davguij/rxios/workflows/CI/badge.svg) [![bundlephobia](https://badgen.net/bundlephobia/minzip/rxios)]()
 
-Below is a list of commands you will probably find useful.
+Rxios makes the awesome [axios](https://github.com/axios/axios) library reactive, so that it's responses are returned as [RxJS](https://github.com/ReactiveX/rxjs) observables.
 
-### `npm start` or `yarn start`
+## Observables? Why?
 
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
+Regular promises are cool, especially for HTTP requests in async/await functions.
 
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
+However, Observables provide operators like map, forEach, reduce... There are also powerful operators like `retry()` or `replay()`, that are often quite handy.
 
-Your library will be rebuilt if you make edits.
+Observables also excel when we need to perform some kind of manipulation on the received data, or when we need to chain several requests.
 
-### `npm run build` or `yarn build`
+Lastly, Reactive stuff is what all the cool kids are doing.
 
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
+## Installation
 
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
+`npm install axios rxjs rxios`
 
-### `npm test` or `yarn test`
+## Usage
 
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
+You can use Rxios by either
+
+**instantiating the class yourself**
+
+```javascript
+import { Rxios } from 'rxios';
+const rxios = new Rxios({ /* options here */ })
+const request = rxios.get(url)...
+```
+
+**importing a "ready-to-use" generic instance**
+
+```javascript
+import { rxios } from 'rxios';
+const request = rxios.get(url)...
+```
+
+In any case, please keep in mind that, when importing, `Rxios` refers to the class and `rxios` to the instance.
+
+### Syntax details
+
+```javascript
+const { Rxios } = require('rxios');
+// or import { Rxios } from 'rxios';
+
+const http = new Rxios({
+  // all regular axios request configuration options are valid here
+  // check https://github.com/axios/axios#request-config
+  baseURL: 'https://jsonplaceholder.typicode.com',
+});
+
+// plain GET request
+http.get('/posts').subscribe(
+  response => {
+    console.log(response); // no need to 'response.data'
+  },
+  err => {
+    console.error(err);
+  }
+);
+
+// GET request with query params
+http
+  .get('/posts', { userId: 1 }) // you can pass an object as second param to the get() method
+  .subscribe(
+    response => {
+      console.log(response); // no need to 'response.data'
+    },
+    err => {
+      console.error(err);
+    }
+  );
+
+// POST request
+http
+  .post('/posts', {
+    // this object will be the payload of the request
+    userId: 1,
+    id: 1,
+    title:
+      'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+  })
+  .subscribe(
+    response => {
+      console.log(response); // again, no need to 'response.data'
+    },
+    err => {
+      console.error(err);
+    }
+  );
+```
+
+## TypeScript usage
+
+Rxios is written in TypeScript, and its typings are provided in this same package.
+
+Also, just like with axios or with Angular's Http module, response types are accepted by the method, like:
+
+```typescript
+import { Rxios } from 'rxios';
+const http = new Rxios();
+interface MyResponse = {userId: number; id: number; title: string};
+http.get<MyResponse[]>('/posts/1')
+  .subscribe(resp: MyResponse[] => {...});
+```
+
+## Advanced usage
+
+All Rxios methods always return an Observable, to which we can apply advanced RxJS operations.
+
+For example, we could make two simultaneous requests and merge their responses as they come, without needing to wait for both to be completed.
+
+```javascript
+import { Observable } from 'rxjs/Rx';
+import { Rxios } from 'rxios';
+const http = new Rxios();
+
+const firstReq = http.get('/posts/1');
+const secondReq = http.get('/posts/2');
+firstReq.merge(secondReq).subscribe(...);
+```
